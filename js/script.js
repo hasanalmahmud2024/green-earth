@@ -19,11 +19,11 @@ const displayCategories = (json) => {
     // 1. get the el and empty
     const categoryContainer = document.getElementById("categories");
     // 2.get into every with loop
-    categories.forEach(category  => {
+    categories.forEach(category => {        
         // 3. create el & add html
         const buttonDiv = document.createElement('div')
-            buttonDiv.innerHTML =`
-            <button class="btn md:btn-block hover:bg-green-700 hover:text-white">
+            buttonDiv.innerHTML = `
+            <button onclick="loadCategoryPlants(${category.id})" id="lesson-btn-${category.id}" class="btn md:btn-block hover:bg-green-700 hover:text-white">
                   ${category.category_name}  
             </button>
             `;
@@ -44,20 +44,14 @@ const loadAllPlants = () => {
 }
 
 const displayPlant = (plants) => {
-    
-    // 1. get the el and empty
     const cardsContainer = document.getElementById("cards-container");
-    // category: "Fruit Tree";
-    // description: "A fast-growing tropical tree that produces delicious, juicy mangoes during summer. Its dense green canopy offers shade, while its sweet fruits are rich in vitamins and minerals.";
-    // id: 1;
-    // image: "https://i.ibb.co.com/cSQdg7tf/mango-min.jpg";
-    // name: "Mango Tree";
-    // price: 500;
+    cardsContainer.innerHTML = "";
+    // console.log(plants);
     
-    // 2.get into every with loop
+    
     plants.forEach(plant => {
-        console.log(plant);
-        // 3. create el & add html
+        // console.log(plant);
+        
         const plantCard = document.createElement('div')
         plantCard.innerHTML = `
         <div class="card bg-base-100 w-60 h-100 bg-cover bg-center shadow-sm">
@@ -92,11 +86,18 @@ const displayPlant = (plants) => {
 
 
 
-// const loadAllPlants = () => {
-//     const url = "https://openapi.programming-hero.com/api/plants";
-//     fetch(url).then(res => res.json()).then(json => console.log(json.)
-//     )
-// }
+
+
+const loadCategoryPlants = (id) => {
+    const url = `https://openapi.programming-hero.com/api/category/${id}`;
+    fetch(url).then(res => res.json()).then(json => {
+        console.log(json.plants);
+        
+        const clickBtn = document.getElementById(`lesson-btn-${id}`)
+        clickBtn.classList.add('active');
+        displayPlant(json.plants)
+})
+}
 // const loadAllPlants = () => {
 //     const url = "https://openapi.programming-hero.com/api/plants";
 //     fetch(url).then(res => res.json()).then(json => console.log(json.)
@@ -111,10 +112,7 @@ loadAllPlants()
 loadCategories();
 
 
-// Get 🌴All Plants
-// https://openapi.programming-hero.com/api/plants
-// Get 🌴All categories
-// https://openapi.programming-hero.com/api/categories
+// 
 // Get 🌴plants by categories
 // https://openapi.programming-hero.com/api/category/${id}
 // https://openapi.programming-hero.com/api/category/1
